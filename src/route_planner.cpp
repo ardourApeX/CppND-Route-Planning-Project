@@ -46,12 +46,19 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 		single_neighbor -> g_value = current_node -> g_value + current_node ->distance(single_neighbor); //Setinng up gvalue
 		single_neighbor -> h_value = CalculateHValue(single_neighbor); //Setting up fvalue
 		open_list.push_back(single_neighbor); //Pushing single neighbor back to open_list
-		single_neighbor -> visited = true; //Setting up visited attribute to ture.
+		single_neighbor -> visited = true; //Setting up visited attribute to ture.	
 
 	}
 
 }
 
+
+//Created a new function to compare two nodes from open_list
+bool Compare2Nodes(const RouteModel::Node *Node1, const RouteModel::Node *Node2)
+{
+	//Ternary Operator : It return true if Node1's Fvalue is greater than Node2's Fvalue otherwise false
+	return (((Node1 -> g_value + Node1 -> h_value) > (Node2 -> g_value + Node2 -> h_value)) ? true : false);
+}
 
 // TODO 5: Complete the NextNode method to sort the open list and return the next node.
 // Tips:
@@ -61,6 +68,11 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Return the pointer.
 
 RouteModel::Node *RoutePlanner::NextNode() {
+	sort(open_list.begin(), open_list.back(), Compare2Nodes); //Sorting open_list using Compare2Nodes Function
+	RouteModel::Node *Least = open_list.back(); //Just like the current node from the pervious exercise ie the one having least F_value
+	open_list.pop_back();// Remove it from open_list as it is no longer for available for visit
+	return least;
+
 
 }
 
