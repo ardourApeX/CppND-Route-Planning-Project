@@ -27,7 +27,7 @@ static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
     return std::move(contents);
 }
 
-bool check( float start_x, float start_y, float end_y){
+bool check( float start_x, float start_y, float end_x, float end_y){
     return ((start_x >= 0 && start_x <= 100) && (start_y >= 0 && start_y <= 100) && (end_x >= 0 && end_x <= 100) && (end_y >= 0 && end_y <= 100));
 }
 
