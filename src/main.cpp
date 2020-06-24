@@ -27,6 +27,10 @@ static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
     return std::move(contents);
 }
 
+bool check( float start_x, float start_y, float end_y){
+    return ((start_x >= 0 && start_x <= 100) && (start_y >= 0 && start_y <= 100) && (end_x >= 0 && end_x <= 100) && (end_y >= 0 && end_y <= 100));
+}
+
 int main(int argc, const char **argv)
 {    
     std::string osm_data_file = "";
@@ -52,10 +56,17 @@ int main(int argc, const char **argv)
             osm_data = std::move(*data);
     }
     float start_x, start_y, end_x, end_y;
-    std::cout<<"Enter the Starting Node's coordinates(x,y): ";
-    std::cin>>start_x>>start_y;
-    std::cout<<"Enter the Goal Node's coordinates(x,y): ";
-    std::cin>>end_x>>end_y
+    user_input:
+        std::cout<<"Enter the Starting Node's coordinates(x,y): ";
+        std::cin>>start_x>>start_y;
+        std::cout<<"Enter the Goal Node's coordinates(x,y): ";
+        std::cin>>end_x>>end_y;
+    
+    if(!check(start_x, start_y, end_x, end_y)){
+        std::cout<<"Are you sure, you entered the right values? Try Again Please!"<<"\n";
+        goto user_input;
+    }
+    
     // Build Model.
     RouteModel model{osm_data};
 
