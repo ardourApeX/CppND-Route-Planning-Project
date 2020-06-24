@@ -39,16 +39,19 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 
 
 //Created a new function to compare two nodes from open_list
-bool Compare2Nodes(const RouteModel::Node *Node1, const RouteModel::Node *Node2)
+
+/*bool Compare2Nodes(const RouteModel::Node *Node1, const RouteModel::Node *Node2)
 {
 	//Ternary Operator : It return true if Node1's Fvalue is greater than Node2's Fvalue otherwise false
 	return (((Node1 -> g_value + Node1 -> h_value) > (Node2 -> g_value + Node2 -> h_value)) ? true : false);
-}
-
+}*/
 
 
 RouteModel::Node *RoutePlanner::NextNode() {
-	sort(open_list.begin(), open_list.end(), Compare2Nodes); //Sorting open_list using Compare2Nodes Function
+//	sort(open_list.begin(), open_list.end(), Compare2Nodes); //Sorting open_list using Compare2Nodes Function
+//Note : It is kinda impractical creating a whole function just for comparing two nodes
+//Instead, use lambda function
+    sort(open_list.begin(), open_list.end(), [](const RouteModel::Node *Node1, const RouteModel::Node *Node2) { return (Node1->h_value + Node1->g_value) > (Node2->h_value + Node2->g_value); });
 	RouteModel::Node *Least = open_list.back(); //Just like the current node from the pervious exercise ie the one having least F_value
 	open_list.pop_back();// Remove it from open_list as it is no longer for available for visit
 	return Least;
